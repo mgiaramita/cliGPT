@@ -10,12 +10,10 @@ from PIL import Image
 
 MODEL = "gpt-3.5-turbo"
 OUTPUT_DIR = "./DALLE_OUTPUT"
-DEFAULT_IMAGE_URL = "https://static.wikia.nocookie.net/gmod/images/9/99/The_Missing_textures.png"
-IMAGE_SIZES = {
-    "small": "256x256",
-    "medium": "512x512",
-    "large": "1024x1024"
-}
+DEFAULT_IMAGE_URL = (
+    "https://static.wikia.nocookie.net/gmod/images/9/99/The_Missing_textures.png"
+)
+IMAGE_SIZES = {"small": "256x256", "medium": "512x512", "large": "1024x1024"}
 EXIT_STR = "EXIT"
 
 LOGO = """
@@ -48,6 +46,7 @@ INIT_PROMPT = "Respond to all questions efficiently and as accurately as possibl
 tokens_input = 0
 tokens_output = 0
 
+
 def dl_img(url):
     # DL image from url
     filepath = ""
@@ -66,8 +65,10 @@ def dl_img(url):
 
     return filepath
 
+
 def print_tokens():
     print(f"Tokens In: {tokens_input}, Tokens Out: {tokens_output}\n")
+
 
 def gen_img(prompt, size=IMAGE_SIZES["medium"], num=1):
     # API has limit of 10 image per request (Update to work with > 1)
@@ -76,15 +77,14 @@ def gen_img(prompt, size=IMAGE_SIZES["medium"], num=1):
 
     # Create image from prompt and return url
     try:
-        response = openai.Image.create(
-            prompt=prompt, n=num, size=size
-        )
+        response = openai.Image.create(prompt=prompt, n=num, size=size)
         img_url = response.data[0].url
     except Exception as e:
-  	# Gen failed, return default (error) image
+        # Gen failed, return default (error) image
         img_url = DEFAULT_IMAGE_URL
 
     return img_url
+
 
 def run_dalle(size):
     # Create image dl folder
@@ -106,16 +106,14 @@ def run_dalle(size):
             im = Image.open(filepath)
             im.show()
 
+
 def gen_chat_rsp(message, message_history, role="user", model=MODEL):
     global tokens_input, tokens_output
 
     # Generate response to message + history
     message_history.append({"role": role, "content": f"{message}"})
     try:
-        completion = openai.ChatCompletion.create(
-            model=model,
-            messages=message_history
-        )
+        completion = openai.ChatCompletion.create(model=model, messages=message_history)
         reply = completion.choices[0].message.content
 
         # Keep track of usage ($$$)
@@ -130,10 +128,11 @@ def gen_chat_rsp(message, message_history, role="user", model=MODEL):
 
     return reply
 
+
 def run_chat_gpt(model):
     message_history = [
         {"role": "user", "content": INIT_PROMPT},
-        {"role": "assistant", "content": "OK"}
+        {"role": "assistant", "content": "OK"},
     ]
 
     print(LOGO_CHATGPT)
@@ -146,10 +145,11 @@ def run_chat_gpt(model):
         print(f"\n :: {rsp}")
         print_tokens()
 
+
 def main():
     # Load dev key, init openai
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read("config.ini")
     openai.api_key = config["DEFAULT"]["API_KEY"]
 
     # Set up and read command line args
@@ -164,7 +164,7 @@ def main():
         print("1) ChatGPT")
         print("2) DALL-E\n")
         print("What would you like to do?")
-        print(f"Type \"{EXIT_STR}\" to quit or go back within an app.")
+        print(f'Type "{EXIT_STR}" to quit or go back within an app.')
         selection = input("> ")
 
         if selection == "1":
@@ -176,8 +176,9 @@ def main():
         elif selection == EXIT_STR:
             break
         else:
-            print(f"\nUnrecognized option \"{selection}\".")
+            print(f'\nUnrecognized option "{selection}".')
             print("Please select from the following.\n")
+
 
 if __name__ == "__main__":
     main()
