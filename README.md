@@ -11,11 +11,11 @@
   \___|_|_|\____|_|    |_|  
 
 ``` 
-#### <sub> Python command line tool to use ChatGPT and DALL-E.
+##### Python command line tool to use ChatGPT and DALL-E.
 
 ## <sub> What is it?
 
-* Another command line tool for the OpenAI [API Documentation](https://platform.openai.com/docs/introduction).
+* Another command line tool for the [OpenAI API - Docs](https://platform.openai.com/docs/introduction).
 * Choose between ChatGPT or DALL-E.
 
 ![MAINMENU](imgs/mainmenu.png)
@@ -27,7 +27,7 @@
 * Talk to "gpt-3.5-turbo" model by default.
 * Utilize ChatGPT like you would in the browser.
 * Pass in -m "<MODEL_NAME>" to use an alternative model.
-  * See the OpenAI [models overview](https://platform.openai.com/docs/models/overview).
+  * See the [OpenAI models overview](https://platform.openai.com/docs/models/overview).
 
 ## <sub> DALL-E
 
